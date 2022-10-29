@@ -118,12 +118,18 @@
     var PC_DEBUG = false;
 
     function Wbbmtt() {
+        this.query = decodeQueryString();
+        var markSizeScale = Number(queryValue(this.query, "markSizeScale", 1.0));
+        this.markRadius1 = 22 * markSizeScale;
+        this.markRadius2 = 14 * markSizeScale;
+        this.mark2Width = 6 * markSizeScale;
+        this.gridSpan = Number(queryValue(this.query, "gridSpan", -1));
+        this.backGroundColor = queryValue(this.query, "backGroundColor", "black");
+        this.showTouchProperties = !queryValueCheckbox(this.query, "hideTouchProperties", false);
+        this.showTouchRadius = queryValueCheckbox(this.query, "showTouchRadius", false);
         this.displayCanvasId = "touchDisplayCanvas";
         this.touchListenElementId = this.displayCanvasId;
         this._trackingTouches = [];
-        if (PC_DEBUG) {
-            this.keyFuncMap = {};
-        }
     };
     Wbbmtt["prototype"]["startAfterLoad"] = Wbbmtt_startAfterLoad;
     Wbbmtt["prototype"]["start"] = Wbbmtt_start;
@@ -133,10 +139,6 @@
     Wbbmtt["prototype"]["_devicemotionHandler"] = Wbbmtt__devicemotionHandler;
     Wbbmtt["prototype"]["_resizeCanvasHandler"] = Wbbmtt__resizeCanvasHandler;
     Wbbmtt["prototype"]["_resizeCanvas"] = Wbbmtt__resizeCanvas;
-    if (PC_DEBUG) {
-        Wbbmtt["prototype"]["_clickHandler"] = Wbbmtt__clickHandler;
-        Wbbmtt["prototype"]["_keydownHandler"] = Wbbmtt__keydownHandler;
-    }
 
     function decodeQueryString() {
         var obj = {};
@@ -234,7 +236,6 @@
     function drawTouchString(ctx, touch, touchColor, ordinal, showRadius) {
         ctx.font = "16px monospace";
         ctx.fillStyle = touchColor;
-        ctx.fillText(formatTouch(touch, ordinal, showRadius), 0, 18 * ordinal + 30);
     }
 
     var RESIZE_DELAY = 300;
@@ -403,12 +404,6 @@
         this._resizeCanvasHandler(this);
         if (this.backGroundColor) {
             document.body.style.background = this.backGroundColor;
-        }
-        if (PC_DEBUG) {
-            this._clickHandlerFunc = this._clickHandlerFunc || methodAdapter(this, this._clickHandler);
-            document.addEventListener("click", this._clickHandlerFunc, false);
-            this._keydownHandlerFunc = this._keydownHandlerFunc || methodAdapter(this, this._keydownHandler);
-            document.addEventListener("keydown", this._keydownHandlerFunc, false);
         }
     }
 
