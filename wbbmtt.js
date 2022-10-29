@@ -201,37 +201,6 @@
         };
     }
 
-    function ordinalStr(ordinal) {
-        switch (ordinal) {
-            case 0:
-                return "1st";
-            case 1:
-                return "2nd";
-            case 2:
-                return "3rd";
-            default:
-                return (ordinal + 1) + "th";
-        }
-    }
-
-    function numberToPadedFixed(number, width, precision) {
-        var s = number.toFixed(precision);
-        while (s.length < width) {
-            s = " " + s;
-        }
-        return s;
-    }
-
-    function formatTouch(touch, ordinal, showRadius) {
-        var s = ordinalStr(ordinal) + " X:" +
-            numberToPadedFixed(touch.pageX, 7, 2) + " Y:" +
-            numberToPadedFixed(touch.pageY, 7, 2);
-        if (showRadius) {
-            s += " rX:" + ((touch.radiusX) ? numberToPadedFixed(touch.radiusX, 3, 1) : "N/A");
-            s += " rY:" + ((touch.radiusY) ? numberToPadedFixed(touch.radiusY, 3, 1) : "N/A");
-        }
-        return s;
-    }
     var COLORS = ["red", "lime", "orange", "aqua", "fuchsia"];
 
     function touchColor(i) {
@@ -281,12 +250,6 @@
         ctx.fillText(formatTouch(touch, ordinal, showRadius), 0, 18 * ordinal + 30);
     }
 
-    function drawIdleMessage(ctx, message, color) {
-        ctx.font = "18px monospace";
-        ctx.fillStyle = color;
-        var metrix = ctx.measureText(message);
-        ctx.fillText(message, (ctx.canvas.width - metrix.width) / 2, ctx.canvas.height / 2);
-    }
     var RESIZE_DELAY = 300;
 
     function Wbbmtt__resizeCanvasHandler(orgThis) {
@@ -333,9 +296,6 @@
                 }
                 entryExists = true;
             }
-        }
-        if (!entryExists) {
-            drawIdleMessage(ctx, this.idleMessage, touchColor(2));
         }
     }
 
