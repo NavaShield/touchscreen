@@ -118,19 +118,6 @@
     var PC_DEBUG = false;
 
     function Wbbmtt() {
-        this.query = decodeQueryString();
-        var markSizeScale = Number(queryValue(this.query, "markSizeScale", 1.0));
-        this.markRadius1 = 22 * markSizeScale;
-        this.markRadius2 = 14 * markSizeScale;
-        this.mark2Width = 6 * markSizeScale;
-        this.gridSpan = Number(queryValue(this.query, "gridSpan", -1));
-        this.backGroundColor = queryValue(this.query, "backGroundColor", "black");
-        this.preventDefault = !queryValueCheckbox(this.query, "noPreventDefault", false);
-        this.manualClearMode = queryValueCheckbox(this.query, "shakeClearMode", false);
-        this.useShakeOperation = this.manualClearMode;
-        this.showTouchProperties = !queryValueCheckbox(this.query, "hideTouchProperties", false);
-        this.showTouchRadius = queryValueCheckbox(this.query, "showTouchRadius", false);
-        this.idleMessage = "Touch Screen Tester (WBBMTT)";
         this.displayCanvasId = "touchDisplayCanvas";
         this.touchListenElementId = this.displayCanvasId;
         this._trackingTouches = [];
